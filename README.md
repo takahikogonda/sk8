@@ -41,7 +41,7 @@ Things you may want to cover:
 <スケボー後>
 
 ## 設計書
-
+<https://docs.google.com/spreadsheets/d/1h8q6aZ-iBMHWHzQIS8qlDjM6pj3g2DaB/edit#gid=1869508626>
 
 ### 機能一覧
 <https://docs.google.com/spreadsheets/d/1UgK-6l38k5T81XjcTIn7CHnGRkB_sBXS5xQWAVhWmks/edit#gid=0>
