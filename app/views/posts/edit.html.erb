@@ -1,0 +1,18 @@
+<h2>Editing Post</h2>
+<%= form_for(@post) do |f| %>
+	<h4>post</h4>
+	<%= f.text_area :body %>
+	<%= f.submit 'Update Book' %>
+<% end %>
+<%= link_to "Show",post_path(@post.id) %>
+<%= link_to "Back",posts_path %>
+<% if @post.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= @post.errors.count %>件のerrorが発生しました。</h2>
+    <ul>
+	    <% @post.errors.full_messages.each do |message| %>
+			<li><%= message %></li>
+    	<% end %>
+    </ul>
+  </div>
+<% end %>

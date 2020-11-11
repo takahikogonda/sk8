@@ -1,0 +1,83 @@
+<% if flash[:notice] %>
+  <div class="flash">
+    <%= flash[:notice] %>
+  </div>
+<% end %>
+<% if flash[:success] %>
+  <div class="flash">
+    <%= flash[:success] %>
+  </div>
+<% end %>
+<div class="col-xs-3">
+<% if flash[:notice] %>
+  <div class="flash">
+    <%= flash[:notice] %>
+  </div>
+<% end %>
+<% if post.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= post.errors.count %>件のerrorが発生しました。</h2>
+        <ul>
+          <% post.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+<% end %>
+
+<div class="col-xs-3">
+<% if flash[:notice] %>
+  <div class="flash">
+    <%= flash[:notice] %>
+  </div>
+<% end %>
+<% if post.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= post.errors.count %>件のerrorが発生しました。</h2>
+        <ul>
+          <% post.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+<h2>User info</h2>
+<%= attachment_image_tag user, :profile_image, size: "60x60", format: 'jpeg', class: "img-circle pull-left profile-img", fallback: "no_image.jpg" %>
+<table class="table">
+  <tbody>
+    <tr>
+      <th>name</th>
+          <th><%= user.name %></th>
+        </tr>
+        <tr>
+          <th>introduction</th>
+          <th><%= user.introduction %></th>
+        </tr>
+  </tbody>
+</table>
+<div class="row">
+  <p><%= link_to "", edit_user_path(@user), class: "glyphicon glyphicon-wrench pull-left btn btn-default btn-block" %>
+</p>
+</div>
+<h2>New Post</h2>
+<div class="row">
+  <%= form_for(post) do |f| %>
+    <div class="field row">
+      <label for="post">post</label>
+      <%= f.text_area :body, class:"form-control",　placeholder:"ボディ" %>
+    </div>
+    <%= f.submit "Create Post", class:"btn btn-primary" %>
+  <% end %>
+</div>
+</div>
+    <div class="col-xs-9">
+      <table class="table">
+    <h2>Posts</h2>
+    <% @user.posts.each do |post| %>
+          <tr>
+            <td><%= attachment_image_tag @user, :profile_image, size: "40x40", format: 'jpeg', class: "img-circle pull-left profile-img", fallback: "no_image.jpg" %></td>
+            <td><%= link_to post, post_path(post.id) %></td>
+          </tr>
+        <% end %>
+      </table>
+</div>
