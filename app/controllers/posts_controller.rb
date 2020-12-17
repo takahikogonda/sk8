@@ -18,12 +18,20 @@ class PostsController < ApplicationController
     		#flash[:notice] = "error"
     		render "index"
     	end
+    	# tag_list = params[:post][:tag_name].split(nil)
+	    # if @post.save
+	      # @post.save_tag(tag_list)
+	      # redirect_back(fallback_location: root_path)
+	    # else
+	      # redirect_back(fallback_location: root_path)
+	    # end
 	end
 
 	def index
 		@posts = Post.all
 		@post = Post.new
 		@user = current_user
+		@tag_list = Tag.all
 	end
 
 	def show
@@ -31,12 +39,12 @@ class PostsController < ApplicationController
 		@user = current_user
 		@postbook = Post.new
 		@post_comments = @post.comments
-		@post_comments = @Comment.new
+		@post_tags = @post.tags
 	end
 
 	def update
 		@post = Post.find(params[:id])
-		if @post.update(book_params)
+		if @post.update(post_params)
 			flash[:notice] = "successfully"
 			redirect_to post_path(@post)
 		else
@@ -44,6 +52,7 @@ class PostsController < ApplicationController
 			render "edit"
 		end
 	end
+
 	def edit
 		@post = Post.find(params[:id])
 	end
@@ -52,6 +61,16 @@ class PostsController < ApplicationController
 		@post = Post.find(params[:id])
 		@post.destroy
 		redirect_to posts_path
+	end
+
+	# def search
+		# @post = Post.search(params[:search])
+	# end
+
+	def search
+		@tag_list = Tag.all
+		@tag = Tag.find(params[:tag_id])
+		@posts = @tag.posts.all
 	end
 
 	private
@@ -64,7 +83,7 @@ class PostsController < ApplicationController
 	end
 
 	def post_params
-		params.require(:post.permit(:body)
+		params.require(:post).permit(:body)
 	end
 
 end

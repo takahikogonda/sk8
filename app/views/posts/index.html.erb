@@ -4,27 +4,27 @@
 		<%= flash[:notice] %>
 	</div>
 <% end %>
-<% if post.errors.any? %>
+<% if @post.errors.any? %>
 		  <div id="error_explanation">
-		    <h2><%= post.errors.count %>件のerrorが発生しました。</h2>
+		    <h2><%= @post.errors.count %>件のerrorが発生しました。</h2>
 		    <ul>
-			    <% post.errors.full_messages.each do |message| %>
+			    <% @post.errors.full_messages.each do |message| %>
 					<li><%= message %></li>
 		    	<% end %>
 		    </ul>
 		  </div>
 		<% end %>
 <h2>User info</h2>
-<%= attachment_image_tag user, :profile_image, size: "60x60", format: 'jpeg', class: "img-circle pull-left profile-img", fallback: "no_image.jpg" %>
+<%= attachment_image_tag @user, :profile_image, size: "60x60", format: 'jpeg', class: "img-circle pull-left profile-img", fallback: "no_image.jpg" %>
 <table class="table">
 	<tbody>
 		<tr>
 		  <th>name</th>
-      	  <th><%= user.name %></th>
+      	  <th><%= @user.name %></th>
         </tr>
         <tr>
           <th>introduction</th>
-          <th><%= user.introduction %></th>
+          <th><%= @user.introduction %></th>
         </tr>
 	</tbody>
 </table>
@@ -34,7 +34,7 @@
 </div>
 <h2>New Post</h2>
 <div class="row">
-	<%= form_for(post) do |f| %>
+	<%= form_for(@post) do |f| %>
 		<div class="field row">
 			<label for="post">post</label>
 			<%= f.text_area :body, class:"form-control",　placeholder:"ボディ" %>
@@ -45,6 +45,12 @@
 </div>
 
 <div class="col-xs-9">
+	<%= @tag_list.each do |list| %>
+	  <span>
+	     link_to list.tag_name, tag_posts_path(tag_id: list.id)
+	     "(#{list.posts.count})"
+	 </span>
+ 	<% end %>
 	<h1>Posts</h1>
 	<table class="table-stripend table">
 		<thead>
@@ -53,15 +59,14 @@
 			</tr>
 		</thead>
 		<tbody>
-			<% @Posts.each do |post| %>
+			<% @posts.each do |post| %>
 					<tr>
 						<td>
-							<%= link_to user_path(book.user_id) do %>
-								<%= attachment_image_tag book.user, :profile_image, size: "60x60" ,fallback: "no_image" %>
+							<%= link_to user_path(post.user_id) do %>
+								<%= attachment_image_tag post.user, :profile_image, size: "60x60" ,fallback: "no_image" %>
 							<% end %>
 						</td>
-						<td><%= link_to post.title,post_path(post) %></td>
-						<td><%= post.body %></td>
+						<td><%= link_to post.body,post_path(post) %></td>
 					</tr>
 				<% end %>
 		</tbody>

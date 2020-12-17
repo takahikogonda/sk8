@@ -5,27 +5,27 @@
 		<%= flash[:notice] %>
 	</div>
 <% end %>
-<% if post.errors.any? %>
+<% if @post.errors.any? %>
 		  <div id="error_explanation">
-		    <h2><%= post.errors.count %>件のerrorが発生しました。</h2>
+		    <h2><%= @post.errors.count %>件のerrorが発生しました。</h2>
 		    <ul>
-			    <% post.errors.full_messages.each do |message| %>
+			    <% @post.errors.full_messages.each do |message| %>
 					<li><%= message %></li>
 		    	<% end %>
 		    </ul>
 		  </div>
 		<% end %>
 <h2>User info</h2>
-<%= attachment_image_tag user, :profile_image, size: "60x60", format: 'jpeg', class: "img-circle pull-left profile-img", fallback: "no_image.jpg" %>
+<%= attachment_image_tag @user, :profile_image, size: "60x60", format: 'jpeg', class: "img-circle pull-left profile-img", fallback: "no_image.jpg" %>
 <table class="table">
 	<tbody>
 		<tr>
 		  <th>name</th>
-      	  <th><%= user.name %></th>
+      	  <th><%= @user.name %></th>
         </tr>
         <tr>
           <th>introduction</th>
-          <th><%= user.introduction %></th>
+          <th><%= @user.introduction %></th>
         </tr>
 	</tbody>
 </table>
@@ -35,7 +35,7 @@
 </div>
 <h2>New Post</h2>
 <div class="row">
-	<%= form_for(post) do |f| %>
+	<%= form_for(@post) do |f| %>
 		<div class="field row">
 			<label for="post">post</label>
 			<%= f.text_area :body, class:"form-control",　placeholder:"ボディ" %>
@@ -45,6 +45,12 @@
 </div>
 </div>
 		<h3>Post detail</h3>
+		<%= @post_tags.each do |tag| %>
+		  	<span>
+			    link_to tag.tag_name, tag_posts_path(tag_id: tag.id)
+			    "(#{tag.posts.count})"
+			</span>
+		<% end %>
 		<table class="table-stripend table">
 			<tbody>
 				<tr>
@@ -55,7 +61,6 @@
 							<%= @post.user.name %>
 						<% end %>
 					</td>
-					<td><%= @post.title %></td>
 					<td><%= @post.body %></td>
 					<% if @post.user == current_user %>
 						<td><%= link_to "Edit",edit_post_path(@post), class: "btn btn-success" %></td>

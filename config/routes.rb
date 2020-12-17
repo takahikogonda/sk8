@@ -9,8 +9,11 @@ Rails.application.routes.draw do
   	resource :favorites, only: [:create, :destroy]
   	resources :post_comments, only: [:create, :destroy]
 
-  	get "search" => "uses#search"
-  	get "search" => "posts#search"
+  	get "search" => "users#search"
+  	# get "search" => "posts#search"
+
+  	resources :tags
+  		get 'posts', to: 'posts#search'
   end
 
 end
