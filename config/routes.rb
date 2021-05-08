@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   root 'home#top'
   resources :posts
   resources :users
+  resources :searches, only: [:index]
   resources :posts, only: [:new, :create, :index, :show] do
   	resource :favorites, only: [:create, :destroy]
   	resources :post_comments, only: [:create, :destroy]
@@ -15,5 +16,13 @@ Rails.application.routes.draw do
   	resources :tags
   		get 'posts', to: 'posts#search'
   end
+  	resources :users do
+  		resource :unsubscribe, only: [:edit, :destroy], module: :users
+  	member do
+	get "check"
+	end
+	end
+
+
 
 end

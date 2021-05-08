@@ -10,6 +10,7 @@ class PostsController < ApplicationController
 		@post = Post.new(post_params)
 		@posts = Post.all
     	@post.user_id = current_user.id
+    	#binding.pry
     	if @post.save
     		flash[:notice] = "successfully"
     		redirect_to post_path(@post)
@@ -37,8 +38,8 @@ class PostsController < ApplicationController
 	def show
 		@post = Post.find(params[:id])
 		@user = current_user
-		@postbook = Post.new
-		@post_comments = @post.comments
+		@newpost = Post.new
+		@post_comment = PostComment.new(post: @post)
 		@post_tags = @post.tags
 	end
 
@@ -83,7 +84,7 @@ class PostsController < ApplicationController
 	end
 
 	def post_params
-		params.require(:post).permit(:body)
+		params.require(:post).permit(:body, images: [])
 	end
 
 end

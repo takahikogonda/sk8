@@ -30,6 +30,10 @@
               <li class="">
                 <%= link_to "logout", destroy_user_session_path, method: :delete %>
               </li>
+              <%= form_tag(searches_path, :method => 'get') do %>
+                  <%= text_field_tag :search %>
+                  <%= submit_tag 'search' %>
+              <% end %>
             </ul>
             <% else %>
             <ul class="nav navbar-nav navbar-right">
@@ -46,10 +50,6 @@
                 <%= link_to "login", new_user_session_path %>
               </li>
 
-              <%= form_tag('/users'&&'/posts', :method => 'get') do %>
-                  <%= text_field_tag :search %>
-                  <%= submit_tag 'search' %>
-              <% end %>
             </ul>
           <% end %>
         </div>
@@ -60,5 +60,5 @@
     <div class="row">
     <%= yield %>
   </body>
-  
+
 </html>

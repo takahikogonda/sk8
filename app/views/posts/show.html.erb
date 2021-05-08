@@ -1,72 +1,146 @@
-<div class="col-xs-9">
+<div class="row">
 	<div class="col-xs-3">
-<% if flash[:notice] %>
-	<div class="flash">
-		<%= flash[:notice] %>
-	</div>
-<% end %>
-<% if @post.errors.any? %>
-		  <div id="error_explanation">
-		    <h2><%= @post.errors.count %>件のerrorが発生しました。</h2>
-		    <ul>
-			    <% @post.errors.full_messages.each do |message| %>
-					<li><%= message %></li>
-		    	<% end %>
-		    </ul>
-		  </div>
-		<% end %>
-<h2>User info</h2>
-<%= attachment_image_tag @user, :profile_image, size: "60x60", format: 'jpeg', class: "img-circle pull-left profile-img", fallback: "no_image.jpg" %>
-<table class="table">
-	<tbody>
-		<tr>
-		  <th>name</th>
-      	  <th><%= @user.name %></th>
-        </tr>
-        <tr>
-          <th>introduction</th>
-          <th><%= @user.introduction %></th>
-        </tr>
-	</tbody>
-</table>
-<div class="row">
-	<p><%= link_to "", edit_user_path(@user), class: "glyphicon glyphicon-wrench pull-left btn btn-default btn-block" %>
-</p>
-</div>
-<h2>New Post</h2>
-<div class="row">
-	<%= form_for(@post) do |f| %>
-		<div class="field row">
-			<label for="post">post</label>
-			<%= f.text_area :body, class:"form-control",　placeholder:"ボディ" %>
+		<% if flash[:notice] %>
+		<div class="flash">
+			<%= flash[:notice] %>
 		</div>
-		<%= f.submit "Create Post", class:"btn btn-primary" %>
-	<% end %>
-</div>
-</div>
-		<h3>Post detail</h3>
-		<%= @post_tags.each do |tag| %>
-		  	<span>
-			    link_to tag.tag_name, tag_posts_path(tag_id: tag.id)
-			    "(#{tag.posts.count})"
-			</span>
 		<% end %>
-		<table class="table-stripend table">
+		<% if @post.errors.any? %>
+		<div id="error_explanation">
+			<h2><%= @post.errors.count %>件のerrorが発生しました。</h2>
+			<ul>
+				<% @post.errors.full_messages.each do |message| %>
+				<li><%= message %></li>
+				<% end %>
+			</ul>
+		</div>
+		<% end %>
+		<h2>User info</h2>
+		<%= attachment_image_tag @user, :profile_image, size: "60x60", format: 'jpeg', class: "img-circle pull-left profile-img", fallback: "no_image.jpg" %>
+		<table class="table">
 			<tbody>
 				<tr>
-					<td>
-						<%= link_to user_path(@post.user) do %>
-							<%= attachment_image_tag @post.user, :profile_image, size: "40x40", format: 'jpeg', class: "img-circle pull-left profile-img", fallback: "no_image.jpg" %>
-							<br>
-							<%= @post.user.name %>
-						<% end %>
-					</td>
-					<td><%= @post.body %></td>
-					<% if @post.user == current_user %>
-						<td><%= link_to "Edit",edit_post_path(@post), class: "btn btn-success" %></td>
-						<td><%= link_to "Destroy", post_path(@post), method: :delete,data: {confirm: "本当に削除しますか？"}, class: "btn btn-danger" %></td>
-					<% end %>
+					<th>name</th>
+					<th><%= @user.name %></th>
+				</tr>
+				<tr>
+					<th>introduction</th>
+					<th><%= @user.introduction %></th>
 				</tr>
 			</tbody>
-	</table>
+		</table>
+		<div class="row">
+			<p><%= link_to "", edit_user_path(@user), class: "glyphicon glyphicon-wrench pull-left btn btn-default btn-block" %>
+			</p>
+		</div>
+		<h2>New Post</h2>
+		<div class="">
+			<%= form_for(@newpost) do |f| %>
+			<div class="field row">
+				<label for="post">post</label>
+				<%= f.text_area :body, placeholder:"入力してください", class: "form-control body_text_area" %>
+			</div>
+			<%= f.file_field :images, multiple: true %>
+			<%= f.submit "Create Post", class:"btn btn-primary" %>
+			<% end %>
+		</div>
+	</div>
+	<div class="col-xs-9">
+		<h3>Post detail</h3>
+		<% @post_tags.each do |tag| %>
+		<span>
+			link_to tag.tag_name, tag_posts_path(tag_id: tag.id)
+			"(#{tag.posts.count})"
+		</span>
+		<% end %>
+
+		<div>
+			<%= link_to user_path(@post.user) do %>
+			<%= attachment_image_tag @post.user, :profile_image, size: "40x40", format: 'jpeg', class: "img-circle pull-left profile-img d-block", fallback: "no_image.jpg" %>
+			<br>
+			<div>
+				<%= @post.user.name %>
+			</div>
+			<% end %>
+			<div>
+				<%= @post.body %>
+			</div>
+			<% if @post.images.attached? %>
+			<% @post.images.each do |image| %>
+			<% if image.content_type.start_with?("image") %>
+			<%= image_tag image ,class: "img-thumbnail", style:"height:250px;" %>
+			<% elsif image.content_type.start_with?("video")%>
+			<video src="<%= rails_blob_path(image) %>" type="video/mp4" controls class="img-thumbnail" style="height:250px;"></video>
+			<% end %>
+			<% end %>
+			<% end %>
+
+			<div class="comment-list bt style-2" id="comments">
+				<div class="float-wrapper">
+					<h2 class="comment-count"><%= @post.post_comments.count %>件コメント</h2>
+				</div>
+				<ul class="list-group">
+					<% @post.post_comments.each do |post_comment| %>
+					<li class="comment list-group-item" style="border: none">
+						<div class="comment-body bb">
+							<div class="comment-text">
+								<div class="comment-author clearfix">
+									<a href="#" class="link-author"><%= post_comment.user.name %></a>
+									<span class="comment-meta">
+										<span class="comment-date"><%= post_comment.created_at.strftime('%Y/%m/%d') %></span>
+									</span>
+								</div>
+								<div class="comment-entry"><%= post_comment.comment %></div>
+								<% if post_comment.images.attached? %>
+								<div>
+									<% post_comment.images.each do |image| %>
+									<% if image.content_type.start_with?("image") %>
+									<%= image_tag image ,class: "img-thumbnail", style:"height:250px;" %>
+									<% elsif image.content_type.start_with?("video") %>
+									<video src="<%= rails_blob_path(image) %>" type="video/mp4" controls class="img-thumbnail" style="height:250px;"></video>
+									<% end %>
+									<% end %>
+								</div>
+								<% end %>
+								<% if post_comment.user == current_user %>
+								<div class="text-end" style="text-align: right;">
+									<%= link_to "削除", post_post_comment_path(post_id: @post.id, id: post_comment.id), method: :delete, class: "btn btn-danger text-end block" %>
+								</div>
+								<% end %>
+							</div>
+						</div>
+					</li>
+					<% end %>
+				</ul>
+			</div>
+			<%= form_with model: @post_comment, url: post_post_comments_path(post_id: @post.id), method: :post, local: true do |f| %>
+			<div class="row">
+				<div class="col-sm-12">
+					<%= f.text_area :comment, rows:'5', class: "form-control",placeholder: "コメントをここに" %>
+				</div>
+			</div>
+			<%= f.file_field :images, multiple: true %>
+			<%= f.submit "送信する", class: "btn btn-lg btn-base-1 mt-20 pull-right" %>
+			<% end %>
+			<% if @post.favorited_by?(current_user) %>
+			<li>
+				<%= link_to post_favorites_path(@post), method: :delete do %>
+				<i class="fa fa-heart" aria-hidden="true" style="color: red;"></i>
+				<%= @post.favorites.count %> いいね<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+				<% end %>
+			</li>
+			<% else %>
+			<li>
+				<%= link_to post_favorites_path(@post), method: :post do %>
+				<i class="fa fa-heart-o" aria-hidden="true"></i>
+				<%= @post.favorites.count %> いいね<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+				<% end %>
+			</li>
+			<% end %>
+			<% if @post.user == current_user %>
+			<%= link_to "Edit",edit_post_path(@post), class: "btn btn-success" %>
+			<%= link_to "Destroy", post_path(@post), method: :delete,data: {confirm: "本当に削除しますか？"}, class: "btn btn-danger" %>
+			<% end %>
+		</div>
+	</div>
 </div>
