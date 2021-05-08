@@ -2,7 +2,7 @@
 <%= form_for(@post) do |f| %>
 	<h4>post</h4>
 	<%= f.text_area :body %>
-	<%= f.submit 'Update Book' %>
+	<%= f.submit 'Update Post' %>
 <% end %>
 <%= link_to "Show",post_path(@post.id) %>
 <%= link_to "Back",posts_path %>

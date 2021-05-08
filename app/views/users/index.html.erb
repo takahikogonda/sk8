@@ -4,27 +4,27 @@
 		<%= flash[:notice] %>
 	</div>
 <% end %>
-<% if post.errors.any? %>
+<% if @post.errors.any? %>
 		  <div id="error_explanation">
-		    <h2><%= post.errors.count %>件のerrorが発生しました。</h2>
+		    <h2><%= @post.errors.count %>件のerrorが発生しました。</h2>
 		    <ul>
-			    <% post.errors.full_messages.each do |message| %>
+			    <% @post.errors.full_messages.each do |message| %>
 					<li><%= message %></li>
 		    	<% end %>
 		    </ul>
 		  </div>
 		<% end %>
 <h2>User info</h2>
-<%= attachment_image_tag user, :profile_image, size: "60x60", format: 'jpeg', class: "img-circle pull-left profile-img", fallback: "no_image.jpg" %>
+<%= attachment_image_tag @user, :profile_image, size: "60x60", format: 'jpeg', class: "img-circle pull-left profile-img", fallback: "no_image.jpg" %>
 <table class="table">
 	<tbody>
 		<tr>
 		  <th>name</th>
-      	  <th><%= user.name %></th>
+      	  <th><%= @user.name %></th>
         </tr>
         <tr>
           <th>introduction</th>
-          <th><%= user.introduction %></th>
+          <th><%= @user.introduction %></th>
         </tr>
 	</tbody>
 </table>
@@ -33,12 +33,13 @@
 </p>
 </div>
 <h2>New Post</h2>
-<div class="row">
-	<%= form_for(post) do |f| %>
+<div class="">
+	<%= form_for(@post) do |f| %>
 		<div class="field row">
 			<label for="post">post</label>
-			<%= f.text_area :body, class:"form-control",　placeholder:"ボディ" %>
+			<%= f.text_area :body, placeholder:"入力してください", class: "form-control body_text_area" %>
 		</div>
+		<%= f.file_field :images, multiple: true %>
 		<%= f.submit "Create Post", class:"btn btn-primary" %>
 	<% end %>
 </div>

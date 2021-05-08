@@ -19,7 +19,7 @@
         <% if user_signed_in? %>
             <ul class="nav navbar-nav navbar-right">
               <li class="">
-                <%= link_to 'Home', user_path %>
+                <%= link_to 'Home', users_path %>
               </li>
               <li class="">
                 <%= link_to 'users', users_path %>
@@ -30,6 +30,10 @@
               <li class="">
                 <%= link_to "logout", destroy_user_session_path, method: :delete %>
               </li>
+              <%= form_tag(searches_path, :method => 'get') do %>
+                  <%= text_field_tag :search %>
+                  <%= submit_tag 'search' %>
+              <% end %>
             </ul>
             <% else %>
             <ul class="nav navbar-nav navbar-right">
@@ -46,10 +50,6 @@
                 <%= link_to "login", new_user_session_path %>
               </li>
 
-              <%= form_tag(search_path, :method => 'get') do %>
-                  <%= text_field_tag :search %>
-                  <%= submit_tag 'search' %>
-              <% end %>
             </ul>
           <% end %>
         </div>
@@ -60,4 +60,5 @@
     <div class="row">
     <%= yield %>
   </body>
+
 </html>

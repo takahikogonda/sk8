@@ -8,6 +8,7 @@ class User < ApplicationRecord
   	has_many :post_comments, dependent: :destroy
   	has_many :favorites, dependent: :destroy
     attachment :profile_image
+    has_one_attached :image
 
     validates :name, presence: true, length: { minimum: 2, maximum: 20 }
     validates :introduction, length: { maximum: 50 }
@@ -17,6 +18,11 @@ class User < ApplicationRecord
        User.where(['name LIKE ?', "%#{search}%"])
     else
        User.all
+    end
+
+    enum is_active: {Available: true, Invalid: false}
+    def active_for_authentication?
+        super && (self.is_active === "Available")
     end
 end
 
