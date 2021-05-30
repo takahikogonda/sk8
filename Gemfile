@@ -6,7 +6,7 @@ ruby '2.5.7'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.4', '>= 5.2.4.4'
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+gem 'mysql2'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets
@@ -41,6 +41,7 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'pry-rails'
   gem 'pry-byebug'
+  gem 'sqlite3'
 end
 
 group :development do
@@ -70,3 +71,4 @@ gem 'jquery-rails'
 gem 'bootstrap-sass', '~> 3.3.6'
 gem 'kaminari','~> 1.2.1'
 gem 'streamio-ffmpeg'
+gem 'dotenv-rails'
