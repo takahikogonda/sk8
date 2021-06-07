@@ -64,7 +64,7 @@
 					<tr>
 						<td>
 							<%= link_to user_path(post.user_id) do %>
-								<%= attachment_image_tag post.user, :profile_image, size: "60x60" ,fallback: "no_image" %>
+								<%= attachment_image_tag post.user, :profile_image, size: "60x60" ,fallback: "no_image.jpg" %>
 							<% end %>
 						</td>
 						<td><%= link_to post.body,post_path(post) %></td>
