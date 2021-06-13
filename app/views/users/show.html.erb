@@ -16,7 +16,11 @@
       </div>
     <% end %>
 <h2>User info</h2>
-<%= attachment_image_tag @user, :profile_image, size: "60x60", format: 'jpeg', class: "img-circle pull-left profile-img", fallback: "no_image.jpg" %>
+<% if @user.image.attached? %>
+  <%= image_tag @user.image, size: "60x60", format: 'jpeg', class: "img-circle pull-left profile-img" %>
+<% else %>
+  <%= image_tag "no_image.jpg" %>
+<% end %>
 <table class="table">
   <tbody>
     <tr>
@@ -50,7 +54,12 @@
     <h2>Posts</h2>
     <% @user.posts.each do |post| %>
           <tr>
-            <td><%= attachment_image_tag @user, :profile_image, size: "40x40", format: 'jpeg', class: "img-circle pull-left profile-img", fallback: "no_image.jpg" %></td>
+            <td><% if @user.image.attached? %>
+                  <%= image_tag @user.image, size: "60x60", format: 'jpeg', class: "img-circle pull-left profile-img" %>
+                <% else %>
+                  <%= image_tag "no_image.jpg" %>
+                <% end %>
+            </td>
             <td><%= link_to post.body, post_path(post.id) %></td>
             <td><%= link_to "comment",post_path(post.id)%></td>
           </tr>

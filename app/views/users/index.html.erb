@@ -15,7 +15,11 @@
 		  </div>
 		<% end %>
 <h2>User info</h2>
-<%= attachment_image_tag @user, :profile_image, size: "60x60", format: 'jpeg', class: "img-circle pull-left profile-img", fallback: "no_image.jpg" %>
+<% if @user.image.attached? %>
+  <%= image_tag @user.image, size: "60x60", format: 'jpeg', class: "img-circle pull-left profile-img" %>
+<% else %>
+  <%= image_tag "no_image.jpg" %>
+<% end %>
 <table class="table">
 	<tbody>
 		<tr>
@@ -58,7 +62,13 @@
 				<tr>
 					<% @users.each do |user| %>
 					<tr>
-						<td><%= attachment_image_tag user, :profile_image, size: "60x60" ,fallback: "no_image.jpg" %></td>
+						<td>
+							<% if user.image.attached? %>
+							  <%= image_tag user.image, size: "60x60", format: 'jpeg', class: "img-circle pull-left profile-img" %>
+							<% else %>
+							  <%= image_tag "no_image.jpg", size: "60x60", format: 'jpeg', class: "img-circle pull-left profile-img" %>
+							<% end %>
+						</td>
 						<td><%= user.name %></td>
 						<td><%= link_to "Show",user_path(user)%></td>
 					</tr>

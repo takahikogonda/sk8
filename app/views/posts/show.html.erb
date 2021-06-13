@@ -16,7 +16,11 @@
 		</div>
 		<% end %>
 		<h2>User info</h2>
-		<%= attachment_image_tag @user, :profile_image, size: "60x60", format: 'jpeg', class: "img-circle pull-left profile-img", fallback: "no_image.jpg" %>
+		<% if @user.image.attached? %>
+		  <%= image_tag @user.image, size: "60x60", format: 'jpeg', class: "img-circle pull-left profile-img" %>
+		<% else %>
+		  <%= image_tag "no_image.jpg" %>
+		<% end %>
 		<table class="table">
 			<tbody>
 				<tr>
@@ -55,15 +59,24 @@
 		<% end %>
 
 		<div>
-			<%= link_to user_path(@post.user) do %>
-			<%= attachment_image_tag @post.user, :profile_image, size: "40x40", format: 'jpeg', class: "img-circle pull-left profile-img d-block", fallback: "no_image.jpg" %>
-			<br>
-			<div>
-				<%= @post.user.name %>
-			</div>
-			<% end %>
-			<div>
-				<%= @post.body %>
+			<div style="display: flex;">
+				<div>
+					<%= link_to user_path(@post.user),style:"display:inline-block;" do %>
+					<% if @post.user.image.attached? %>
+					  <%= image_tag @post.user.image, size: "60x60", format: 'jpeg', class: "img-circle pull-left profile-img" %>
+					<% else %>
+					  <%= image_tag "no_image.jpg" %>
+				  	<% end %>
+				  	<% end %>
+				  	<div>
+				  		<%= link_to user_path(@post.user) do %>
+						<%= @post.user.name %>
+						<% end %>
+					</div>
+				</div>
+				<div>
+					<%= @post.body %>
+				</div>
 			</div>
 			<% if @post.images.attached? %>
 			<% @post.images.each do |image| %>
