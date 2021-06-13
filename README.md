@@ -57,10 +57,12 @@ Things you may want to cover:
 自分で用意
 
 デプロイ手順
-git add .
-(git status)
-git commit -m
-git push
+1. git add .
+   (git status)
+2. git commit -m
+3. git push
 
-デプロイコマンド
-bundle exec cap production deploy
+4. デプロイコマンド
+    ```
+    bundle exec cap production deploy
+    ```
