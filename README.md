@@ -55,3 +55,12 @@ Things you may want to cover:
 
 ## 使用素材
 自分で用意
+
+デプロイ手順
+git add .
+(git status)
+git commit -m
+git push
+
+デプロイコマンド
+bundle exec cap production deploy
