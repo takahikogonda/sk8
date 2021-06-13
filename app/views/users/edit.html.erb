@@ -27,7 +27,7 @@
                 <% if @user.image.attached? %>
                   <%= image_tag @user.image, size: "60x60", format: 'jpeg', class: "img-circle pull-left profile-img" %>
                 <% else %>
-                  <%= image_tag "no_image.jpg" %>
+                  <%= image_tag "no_image.jpg", size: "60x60", format: 'jpeg', class: "img-circle pull-left profile-img" %>
                 <% end %>
             </div>
             <label class="control-label sr-only" for="inputEmail">ProfileImage</label>
