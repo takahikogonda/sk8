@@ -10,22 +10,15 @@ class PostsController < ApplicationController
 		@post = Post.new(post_params)
 		@posts = Post.all
     	@post.user_id = current_user.id
-    	#binding.pry
-    	if @post.save
+    	if @post.valid?
+    		@post.save
     		flash[:notice] = "successfully"
     		redirect_to post_path(@post)
     	else
     		@user = current_user
-    		#flash[:notice] = "error"
+    		@tag_list = Tag.all
     		render "index"
     	end
-    	# tag_list = params[:post][:tag_name].split(nil)
-	    # if @post.save
-	      # @post.save_tag(tag_list)
-	      # redirect_back(fallback_location: root_path)
-	    # else
-	      # redirect_back(fallback_location: root_path)
-	    # end
 	end
 
 	def index
